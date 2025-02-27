@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AlertCircle, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
-// Groq API types
 interface GroqMessage {
   role: "user" | "assistant";
   content: string;
@@ -35,14 +35,6 @@ export default function DSATeachingAssistant() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [apiKey, setApiKey] = useState(() => {
-    // Try to get API key from localStorage during initialization
-    if (typeof window !== "undefined") {
-      return (
-        localStorage.getItem("groqApiKey") ||
-        process.env.NEXT_PUBLIC_GROQ_API_KEY ||
-        ""
-      );
-    }
     return process.env.NEXT_PUBLIC_GROQ_API_KEY || "";
   });
   const [showApiKeyInput, setShowApiKeyInput] = useState(false);
@@ -62,7 +54,6 @@ export default function DSATeachingAssistant() {
     inputRef.current?.focus();
   }, []);
 
-  // Save API key to localStorage when it changes
   useEffect(() => {
     if (apiKey && typeof window !== "undefined") {
       localStorage.setItem("groqApiKey", apiKey);
@@ -71,7 +62,6 @@ export default function DSATeachingAssistant() {
 
   const callGroqAPI = async (userMessages: GroqMessage[]) => {
     try {
-      // Define the system message to instruct the model
       const systemMessage = {
         role: "system",
         content:
@@ -87,7 +77,7 @@ export default function DSATeachingAssistant() {
             Authorization: `Bearer ${apiKey}`,
           },
           body: JSON.stringify({
-            model: "llama3-70b-8192", // You can use other Groq models like "mixtral-8x7b-32768" as needed
+            model: "llama3-70b-8192",
             messages: [systemMessage, ...userMessages],
             temperature: 0.7,
             max_tokens: 1024,
@@ -115,7 +105,6 @@ export default function DSATeachingAssistant() {
 
     if (!inputValue.trim()) return;
 
-    // Check if API key is set
     if (!apiKey) {
       setShowApiKeyInput(true);
       return;
@@ -131,15 +120,13 @@ export default function DSATeachingAssistant() {
     setInputValue("");
     setIsLoading(true);
 
-    // Transform messages for Groq API
     const groqMessages: GroqMessage[] = messages
-      .filter((msg) => msg.id !== 1) // Skip the initial greeting
+      .filter((msg) => msg.id !== 1)
       .map((msg) => ({
         role: msg.role as "user" | "assistant",
         content: msg.content,
       }));
 
-    // Add the new user message
     groqMessages.push({
       role: "user",
       content: newUserMessage.content,
@@ -174,28 +161,6 @@ export default function DSATeachingAssistant() {
   const handleApiKeySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShowApiKeyInput(false);
-  };
-
-  const formatMessageContent = (content: string) => {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts = content.split(urlRegex);
-
-    return parts.map((part, index) => {
-      if (part.match(urlRegex)) {
-        return (
-          <a
-            key={index}
-            href={part}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
-          >
-            {part}
-          </a>
-        );
-      }
-      return part;
-    });
   };
 
   return (
@@ -259,9 +224,15 @@ export default function DSATeachingAssistant() {
                     }`}
                   >
                     <CardContent className="p-3">
-                      <p className="whitespace-pre-wrap">
-                        {formatMessageContent(message.content)}
-                      </p>
+                      <ReactMarkdown
+                        components={{
+                          p: ({ children }) => (
+                            <p className="whitespace-pre-wrap">{children}</p>
+                          ),
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
                     </CardContent>
                   </Card>
                 </div>
