@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { Send } from "lucide-react";
+import { RefreshCw, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -168,6 +168,20 @@ export default function Page() {
     }
   };
 
+  const handleRefresh = () => {
+    setMessages([
+      {
+        id: 1,
+        role: "assistant",
+        content:
+          "Hello! I'm your DSA Study Bot. Share a LeetCode problem link and your specific question, and I'll help you understand the approach without giving away the solution.",
+      },
+    ]);
+    setInputValue("");
+    setIsConversationStarted(false);
+    setIsAnimating(false);
+  };
+
   return (
     <div
       ref={containerRef}
@@ -231,7 +245,9 @@ export default function Page() {
         }
       `}</style>
 
-      <ScrollArea className="flex-1 w-full pt-20">
+      <ScrollArea
+        className={`flex-1 w-full ${isConversationStarted ? "pt-20" : ""}`}
+      >
         <div className="min-h-screen p-4 w-full flex md:items-center md:justify-center bg-white antialiased relative overflow-hidden">
           <div className=" p-4 max-w-7xl  mx-auto relative z-10  w-full pt-20 md:pt-0">
             <h1 className="text-3xl md:text-5xl lg:text-7xl mb-2 font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-600 bg-opacity-50">
@@ -247,6 +263,85 @@ export default function Page() {
                   isAnimating ? "animate-welcome-fade-out" : ""
                 }`}
               >
+                <div className="w-full max-w-2xl mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card
+                      className="p-4 hover:bg-accent/50 transition-colors cursor-pointer"
+                      onClick={() =>
+                        setInputValue(
+                          "I'm stuck on LeetCode #121 (Best Time to Buy and Sell Stock). Can you help me understand what patterns I should look for?",
+                        )
+                      }
+                    >
+                      <CardContent className="p-0">
+                        <h3 className="font-medium mb-2">
+                          Problem Understanding
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          &ldquo;I&apos;m stuck on LeetCode #121 (Best Time to
+                          Buy and Sell Stock). Can you help me understand what
+                          patterns I should look for?&rdquo;
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card
+                      className="p-4 hover:bg-accent/50 transition-colors cursor-pointer"
+                      onClick={() =>
+                        setInputValue(
+                          "Can you explain how the sliding window technique works? I'm trying to solve LeetCode #3.",
+                        )
+                      }
+                    >
+                      <CardContent className="p-0">
+                        <h3 className="font-medium mb-2">
+                          Concept Clarification
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          &ldquo;Can you explain how the sliding window
+                          technique works? I&apos;m trying to solve LeetCode
+                          #3.&rdquo;
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card
+                      className="p-4 hover:bg-accent/50 transition-colors cursor-pointer"
+                      onClick={() =>
+                        setInputValue(
+                          "For LeetCode #200 (Number of Islands), I'm thinking of using DFS. Is this a good approach?",
+                        )
+                      }
+                    >
+                      <CardContent className="p-0">
+                        <h3 className="font-medium mb-2">
+                          Approach Validation
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          &ldquo;For LeetCode #200 (Number of Islands), I&apos;m
+                          thinking of using DFS. Is this a good approach?&rdquo;
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card
+                      className="p-4 hover:bg-accent/50 transition-colors cursor-pointer"
+                      onClick={() =>
+                        setInputValue(
+                          "What's the time complexity of using a HashMap for LeetCode #1 (Two Sum)? Can it be improved?",
+                        )
+                      }
+                    >
+                      <CardContent className="p-0">
+                        <h3 className="font-medium mb-2">
+                          Time Complexity Help
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          &ldquo;What&apos;s the time complexity of using a
+                          HashMap for LeetCode #1 (Two Sum)? Can it be
+                          improved?&rdquo;
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
                 <div
                   className={`w-full max-w-2xl ${
                     isAnimating ? "animate-input-to-bottom" : ""
@@ -308,10 +403,38 @@ export default function Page() {
                           <ReactMarkdown
                             components={{
                               p: ({ children }) => (
-                                <p className="whitespace-pre-wrap text-sm sm:text-base">
-                                  {children}
-                                </p>
+                                <p className="mb-4">{children}</p>
                               ),
+                              ol: ({ children }) => (
+                                <ol className="list-decimal list-inside mb-4">
+                                  {children}
+                                </ol>
+                              ),
+                              ul: ({ children }) => (
+                                <ul className="list-disc list-inside mb-4 ml-4">
+                                  {children}
+                                </ul>
+                              ),
+                              code: ({ className, children }) => {
+                                const match = /language-(\w+)/.exec(
+                                  className || "",
+                                );
+                                const isCodeBlock = Boolean(match);
+
+                                return isCodeBlock ? (
+                                  <pre className="p-4 bg-muted rounded-lg overflow-x-auto">
+                                    <code
+                                      className={`${match ? `language-${match[1]}` : ""} text-sm font-mono`}
+                                    >
+                                      {String(children).replace(/\n$/, "")}
+                                    </code>
+                                  </pre>
+                                ) : (
+                                  <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">
+                                    {children}
+                                  </code>
+                                );
+                              },
                             }}
                           >
                             {message.content}
@@ -364,6 +487,15 @@ export default function Page() {
                             size="icon"
                           >
                             <Send className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={handleRefresh}
+                            disabled={isLoading}
+                          >
+                            <RefreshCw className="h-4 w-4" />
                           </Button>
                         </div>
                       </form>
