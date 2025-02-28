@@ -6,7 +6,7 @@ The **DSA Study Bot** is a web application designed to assist students in unders
 
 The bot encourages independent problem-solving by providing thoughtful guidance and fostering a deeper understanding of DSA concepts.
 
----
+
 
 ## Features
 
@@ -15,7 +15,6 @@ The bot encourages independent problem-solving by providing thoughtful guidance 
 - **API Key Management**: Securely store and manage your Groq API key.
 - **Responsive Design**: The application works seamlessly across various devices, including desktops, tablets, and mobile phones.
 
----
 
 ## Installation
 
@@ -55,7 +54,7 @@ Before you begin, ensure you have the following installed:
 5. **Open the Application**:
    - Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
----
+
 
 ## Usage
 
@@ -69,7 +68,7 @@ Before you begin, ensure you have the following installed:
 3. **View Responses**:
    - The bot's responses will be rendered with **Markdown support**, allowing for rich text formatting, including code blocks, links, and more.
 
----
+
 
 ## Technologies Used
 
@@ -78,7 +77,7 @@ Before you begin, ensure you have the following installed:
 - **Groq API**: Powers the AI-driven responses and interactions.
 - **react-markdown**: A library for rendering Markdown content in the chat interface.
 
----
+
 
 ## Contributing
 
@@ -108,20 +107,20 @@ We welcome contributions! If you'd like to contribute to the project, please fol
 5. **Create a Pull Request**:
    - Open a **Pull Request** on GitHub, describing your changes and their purpose.
 
----
+
 
 ## License
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
----
+
 
 ## Acknowledgments
 
 - Thanks to the **Groq** team for providing the API that powers this application.
 - Inspired by the need for better **DSA learning resources** for students and developers.
 
----
+
 
 ## Contact
 
