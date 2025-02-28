@@ -4,7 +4,7 @@
 
 ## Overview
 
-The **DSA Study Bot** is a web application designed to assist students in understanding **Data Structures and Algorithms (DSA)** concepts without providing direct solutions. It leverages the **Groq API** to offer hints, explain key concepts, suggest approaches, and ask guiding questions. This tool is particularly useful for students preparing for technical interviews or solving problems on platforms like **LeetCode**.
+The **DSA Study Bot** is a web application designed to assist students in understanding **Data Structures and Algorithms (DSA)** concepts without providing direct solutions. It uses the **Groq API** to offer hints, explain key concepts, suggest approaches, and ask guiding questions. This tool is particularly useful for students preparing for technical interviews or solving problems on platforms like **LeetCode**.
 
 The bot encourages independent problem-solving by providing thoughtful guidance and fostering a deeper understanding of DSA concepts.
 
@@ -16,6 +16,9 @@ The bot encourages independent problem-solving by providing thoughtful guidance 
 - **Markdown Support**: Responses are rendered with rich text formatting, including **links**, **code blocks**, and more.
 - **API Key Management**: Securely store and manage your Groq API key.
 - **Responsive Design**: The application works seamlessly across various devices, including desktops, tablets, and mobile phones.
+
+
+## Workflow
 
 
 ## Installation
