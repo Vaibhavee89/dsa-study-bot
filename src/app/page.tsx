@@ -65,8 +65,18 @@ export default function Page() {
 
       const systemMessage = {
         role: "system",
-        content:
-          "You are a DSA (Data Structures and Algorithms) Study Bot. Your goal is to help students understand algorithms and data structures concepts without giving away complete solutions to problems. When given a LeetCode problem, provide hints, explain key concepts, suggest approaches, and ask guiding questions, but avoid providing full implementations. Focus on teaching the underlying principles and helping students develop their problem-solving skills.",
+        content: `
+        You are a DSA (Data Structures and Algorithms) Study Bot designed to assist students in understanding algorithms and data structures concepts. Your primary goal is to help students develop their problem-solving skills by providing hints, explaining key concepts, suggesting approaches, and asking guiding questions. When given a LeetCode problem or any coding challenge, focus on the following:
+        1. **Concept Explanation**: Break down complex concepts into simpler parts and explain them clearly.
+        2. **Hints and Guidance**: Provide hints that nudge students towards the solution without giving it away.
+        3. **Approach Suggestions**: Suggest different approaches or algorithms that could be used to solve the problem.
+        4. **Time and Space Complexity**: Discuss the time and space complexity of different approaches.
+        5. **Avoid Full Solutions**: Do not provide complete code implementations. Instead, guide students through the process of writing their own code.
+        6. **Encourage Practice**: Encourage students to practice coding and problem-solving regularly.
+        7. **Interactive Learning**: Engage students by asking questions that prompt them to think critically and apply what they've learned.
+
+        Always prioritize educational value and ensure that students are actively engaged in the learning process.
+        `,
       };
 
       const response = await fetch(
@@ -363,7 +373,7 @@ export default function Page() {
                           }
                         }}
                         placeholder="How can study bot help you today on your DSA journey?"
-                        className="flex-1 p-4 h-36 text-base shadow-md pr-12"
+                        className="flex-1 p-4 h-36 text-base shadow-lg pr-12 border-black/[0.3]"
                         disabled={isLoading}
                       />
                       <Button
@@ -406,7 +416,7 @@ export default function Page() {
                                 <p className="mb-4">{children}</p>
                               ),
                               ol: ({ children }) => (
-                                <ol className="list-decimal list-inside mb-4">
+                                <ol className="list-decimal pl-6 mb-4 space-y-1">
                                   {children}
                                 </ol>
                               ),
