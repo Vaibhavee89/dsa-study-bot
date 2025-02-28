@@ -1,3 +1,4 @@
+# DSA Study Bot
 ![image](https://github.com/user-attachments/assets/1987be04-d0a6-4a48-9c97-afda39afc6c5)
 
 
