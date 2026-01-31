@@ -1,0 +1,1 @@
+export { FlashcardDeck } from "./FlashcardDeck";

@@ -1,6 +1,6 @@
 import { Problem, ProblemFilter, TopicSlug, Difficulty } from "./types";
-import { problems, getProblemById, getProblemsByDifficulty, getProblemsByTopic, getProblemCount } from "./problems";
-import { topics, getTopicBySlug, getTopicsByCategory } from "./topics";
+import { problems, getProblemById } from "./problems";
+import { topics } from "./topics";
 
 export * from "./types";
 export * from "./problems";
