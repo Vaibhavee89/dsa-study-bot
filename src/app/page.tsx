@@ -9,6 +9,7 @@ import { RefreshCw, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { StudySidebar } from "@/components/sidebar";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -223,12 +224,13 @@ export default function Page() {
         <div className="absolute top-4 right-4 z-50">
           <ThemeToggle />
         </div>
+        <StudySidebar onSelectProblem={(problem) => setInputValue(problem)} />
         <div className="min-h-screen p-4 w-full flex md:items-center md:justify-center bg-background antialiased relative overflow-hidden">
           <div className=" p-4 max-w-7xl  mx-auto relative z-10  w-full pt-20 md:pt-0">
             <h1 className="text-3xl md:text-5xl lg:text-7xl mb-2 font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-600 bg-opacity-50">
               DSA Study Bot
             </h1>
-            <h2 className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 md:mb-8 max-w-2xl mx-auto text-center text-muted-foreground mb-12">
+            <h2 className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 md:mb-8 max-w-2xl mx-auto text-center text-muted-foreground">
               Get help understanding algorithms{" "}
               <span className="underline">without</span> spoiling solutions
             </h2>
