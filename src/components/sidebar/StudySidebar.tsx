@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { 
   BookOpen, 
   Brain, 
   Layers, 
   ChevronLeft, 
   ChevronRight,
-  X
+  X,
+  BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,6 +57,11 @@ export function StudySidebar({ onSelectProblem }: StudySidebarProps) {
         <div className="p-4 space-y-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Study Tools</h2>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/dashboard">
+                <BarChart3 className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
 
           {/* Tab Buttons */}

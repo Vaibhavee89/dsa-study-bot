@@ -17,6 +17,21 @@ services:
       retries: 3
       start_period: 40s
 
+  # Discord Bot service
+  discord-bot:
+    build:
+      context: ./discord-bot
+      dockerfile: Dockerfile
+    container_name: dsa-discord-bot
+    environment:
+      - NODE_ENV=production
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    restart: unless-stopped
+    profiles:
+      - discord
+
   # Development service with hot reload
   dsa-study-bot-dev:
     build:
