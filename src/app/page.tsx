@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { StudySidebar } from "@/components/sidebar";
+import { UserMenu } from "@/components/auth";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -221,7 +222,8 @@ export default function Page() {
       <ScrollArea
         className={`flex-1 w-full ${isConversationStarted ? "pt-20" : ""}`}
       >
-        <div className="absolute top-4 right-4 z-50">
+        <div className="absolute top-4 right-4 z-50 flex items-center gap-2">
+          <UserMenu />
           <ThemeToggle />
         </div>
         <StudySidebar onSelectProblem={(problem) => setInputValue(problem)} />
