@@ -8,20 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { RefreshCw, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-interface GroqMessage {
+interface ChatMessage {
   role: "user" | "assistant";
   content: string;
-}
-
-interface GroqResponse {
-  id: string;
-  choices: {
-    message: {
-      role: string;
-      content: string;
-    };
-  }[];
 }
 
 export default function Page() {
@@ -59,55 +50,26 @@ export default function Page() {
     }
   }, [isConversationStarted]);
 
-  const callGroqAPI = async (userMessages: GroqMessage[]) => {
+  const callChatAPI = async (userMessages: ChatMessage[]) => {
     try {
-      const apiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
-
-      const systemMessage = {
-        role: "system",
-        content: `
-        You are a DSA (Data Structures and Algorithms) Study Bot designed to assist students in understanding algorithms and data structures concepts. Your primary goal is to help students develop their problem-solving skills by providing hints, explaining key concepts, suggesting approaches, and asking guiding questions. When given a LeetCode problem or any coding challenge, focus on the following:
-        1. **Concept Explanation**: Break down complex concepts into simpler parts and explain them clearly.
-        2. **Hints and Guidance**: Provide hints that nudge students towards the solution without giving it away.
-        3. **Approach Suggestions**: Suggest different approaches or algorithms that could be used to solve the problem.
-        4. **Time and Space Complexity**: Discuss the time and space complexity of different approaches.
-        5. **Avoid Full Solutions**: Do not provide complete code implementations. Instead, guide students through the process of writing their own code.
-        6. **Encourage Practice**: Encourage students to practice coding and problem-solving regularly.
-        7. **Interactive Learning**: Engage students by asking questions that prompt them to think critically and apply what they've learned.
-
-        Always prioritize educational value and ensure that students are actively engaged in the learning process.
-        `,
-      };
-
-      const response = await fetch(
-        "https://api.groq.com/openai/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify({
-            model: "llama3-70b-8192",
-            messages: [systemMessage, ...userMessages],
-            temperature: 0.7,
-            max_tokens: 1024,
-          }),
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ messages: userMessages }),
+      });
+
+      const data = await response.json();
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.error?.message || "Failed to get response from Groq API",
-        );
+        throw new Error(data.error || "Failed to get response");
       }
 
-      const data: GroqResponse = await response.json();
-      return data.choices[0].message.content;
+      return data.content;
     } catch (error) {
-      console.error("Error calling Groq API:", error);
-      return "I encountered an error while processing your request. Please check your API key or try again later.";
+      console.error("Error calling chat API:", error);
+      return "I encountered an error while processing your request. Please try again later.";
     }
   };
 
@@ -140,20 +102,20 @@ export default function Page() {
     setInputValue("");
     setIsLoading(true);
 
-    const groqMessages: GroqMessage[] = messages
+    const chatMessages: ChatMessage[] = messages
       .filter((msg) => msg.id !== 1)
       .map((msg) => ({
         role: msg.role as "user" | "assistant",
         content: msg.content,
       }));
 
-    groqMessages.push({
+    chatMessages.push({
       role: "user",
       content: newUserMessage.content,
     });
 
     try {
-      const aiResponse = await callGroqAPI(groqMessages);
+      const aiResponse = await callChatAPI(chatMessages);
 
       const newAssistantMessage = {
         id: messages.length + 2,
@@ -258,7 +220,10 @@ export default function Page() {
       <ScrollArea
         className={`flex-1 w-full ${isConversationStarted ? "pt-20" : ""}`}
       >
-        <div className="min-h-screen p-4 w-full flex md:items-center md:justify-center bg-white antialiased relative overflow-hidden">
+        <div className="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
+        <div className="min-h-screen p-4 w-full flex md:items-center md:justify-center bg-background antialiased relative overflow-hidden">
           <div className=" p-4 max-w-7xl  mx-auto relative z-10  w-full pt-20 md:pt-0">
             <h1 className="text-3xl md:text-5xl lg:text-7xl mb-2 font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-600 bg-opacity-50">
               DSA Study Bot

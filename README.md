@@ -51,7 +51,7 @@ Before you begin, ensure you have the following installed:
    - Create a `.env` file in the root of your project.
    - Add your Groq API key to the `.env` file:
      ```env
-     NEXT_PUBLIC_GROQ_API_KEY=your_api_key_here
+     GROQ_API_KEY=your_api_key_here
      ```
 
 4. **Run the Application**:
@@ -61,6 +61,74 @@ Before you begin, ensure you have the following installed:
 
 5. **Open the Application**:
    - Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+
+
+## Docker Deployment
+
+### Prerequisites
+
+- **Docker** (v20.10 or later)
+- **Docker Compose** (v2.0 or later)
+- A **Groq API Key**
+
+### Quick Start with Docker Compose
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/your-username/dsa-teaching-assistant.git
+   cd dsa-teaching-assistant
+   ```
+
+2. **Set Up Environment Variables**:
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your GROQ_API_KEY
+   ```
+
+3. **Build and Run**:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Access the Application**:
+   - Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
+
+### Docker Commands
+
+```bash
+# Build the image
+docker-compose build
+
+# Start the container (detached)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop the container
+docker-compose down
+
+# Rebuild and restart
+docker-compose up -d --build
+```
+
+### Development with Docker
+
+For development with hot reload:
+
+```bash
+docker-compose --profile dev up dsa-study-bot-dev
+```
+
+### Manual Docker Build
+
+```bash
+# Build the image
+docker build -t dsa-study-bot .
+
+# Run the container
+docker run -p 3000:3000 -e GROQ_API_KEY=your_api_key dsa-study-bot
+```
 
 
 
