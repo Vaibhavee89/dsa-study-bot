@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { 
+import {
   ArrowLeft, 
   Flame, 
   Target, 
@@ -21,7 +20,6 @@ import { problems, topics } from "@/data";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function DashboardPage() {
-  const { data: session } = useSession();
   const { progress, isLoading, getTopicProgressStats, getStreakCalendar } = useProgress();
   const [mounted, setMounted] = useState(false);
 
@@ -84,11 +82,6 @@ export default function DashboardPage() {
             <h1 className="text-xl font-bold">Analytics Dashboard</h1>
           </div>
           <div className="flex items-center gap-2">
-            {session?.user?.name && (
-              <span className="text-sm text-muted-foreground">
-                {session.user.name}
-              </span>
-            )}
             <ThemeToggle />
           </div>
         </div>

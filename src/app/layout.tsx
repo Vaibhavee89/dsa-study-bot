@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { SessionProvider } from "@/components/auth/SessionProvider";
 import { ServiceWorkerRegistration } from "@/components/pwa";
 
 const geistSans = Geist({
@@ -51,12 +50,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-          <ThemeProvider defaultTheme="system" storageKey="dsa-study-bot-theme">
-            <ServiceWorkerRegistration />
-            {children}
-          </ThemeProvider>
-        </SessionProvider>
+        <ThemeProvider defaultTheme="system" storageKey="dsa-study-bot-theme">
+          <ServiceWorkerRegistration />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
